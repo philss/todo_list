@@ -8,9 +8,7 @@ defmodule TodoList.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Starts a worker by calling: TodoList.Worker.start_link(arg)
-      # {TodoList.Worker, arg}
-      {TodoList.CLI.Store, []}
+      {TodoList.Repo, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
