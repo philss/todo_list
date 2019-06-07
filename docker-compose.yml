@@ -1,0 +1,14 @@
+version: "3.3"
+services:
+  db:
+    image: postgres:11.1-alpine
+    ports:
+      - "5432"
+  todo-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    depends_on:
+      - db
