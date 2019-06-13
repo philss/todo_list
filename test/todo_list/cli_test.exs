@@ -1,5 +1,5 @@
 defmodule TodoList.CLITest do
-  use ExUnit.Case
+  use TodoList.DataCase
   import ExUnit.CaptureIO
 
   alias TodoList
@@ -14,7 +14,8 @@ defmodule TodoList.CLITest do
   test "main/1 with --task adds a new task" do
     assert TodoList.list_tasks() == []
 
-    CLI.main(["--task", "Hello world"])
+    cli_io = capture_io(fn -> CLI.main(["--task", "Hello world"]) end)
+    assert cli_io =~ "Task saved: Hello world"
 
     assert content(TodoList.list_tasks()) == ["Hello world"]
 
@@ -24,6 +25,11 @@ defmodule TodoList.CLITest do
     assert cli_io =~ "content: should be at least 5 character(s)"
 
     assert content(TodoList.list_tasks()) == ["Hello world"]
+
+    cli_io = capture_io(fn -> CLI.main(["--list-tasks"]) end)
+
+    assert cli_io =~ "Tasks:"
+    assert cli_io =~ "- Hello world"
   end
 
   defp content(tasks) do

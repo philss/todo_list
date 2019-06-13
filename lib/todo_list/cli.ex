@@ -17,8 +17,9 @@ defmodule TodoList.CLI do
   end
 
   def main(["--list-tasks"]) do
+    IO.puts("Tasks:")
     Enum.map(TodoList.list_tasks(), fn(task) ->
-      IO.puts("Task: #{task.content}")
+      IO.puts("- #{task.content}")
     end)
   end
 

@@ -6,8 +6,10 @@ defmodule TodoList.MixProject do
       app: :todo_list,
       version: "0.1.0",
       elixir: "~> 1.8",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       escript: escript(),
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -28,6 +30,18 @@ defmodule TodoList.MixProject do
       {:postgrex, "~> 0.14"}
     ]
   end
+
+  defp aliases do
+    [
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+    ]
+  end
+
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp escript() do
     [main_module: TodoList.CLI]
